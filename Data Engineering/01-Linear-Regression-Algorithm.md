@@ -59,3 +59,36 @@ $$SS_xx = \sum_{i=1}^n (x_i - x̅)^2 = \sum_{i=1}^n (x_i^2 - n ⋅ (x̅)^2)$$
 <p>And graph obtained looks like this:</p>
 
 ![](https://media.geeksforgeeks.org/wp-content/uploads/python-linear-regression-2.png)
+
+<h2>🛸 Multiple Linear Regression </h2>
+<p>Multiple linear regression attempts to model the relationship between two or more features and a response by fitting a linear equation to the observed data. Clearly, it is nothing but an extension of simple linear regression. Consider a dataset with p features(or independent variables) and one response(or dependent variable). 
+Also, the dataset contains n rows/observations. We define: ***x*** (feature matrix) = a matrix of size ***n X p*** where:</p>
+
+$$x_{ij}$$
+
+<p>Denotes the values of jth feature for ith observation. So: </p>
+
+>In this explanation, I refer to dependent variables as responses and independent variables as features for simplicity.
+
+$$\begin{pmatrix}
+x_11 & ⋯ & x_1p\\
+x_21 & ⋯ & x_2p\\
+⋮ & ⋱ & ⋮\\
+x_n1 & ⋯ & x_np\
+\end{pmatrix}$$
+
+$$y = X⋅ β + ε$$
+
+$$β = \begin{bmatrix}
+β_0\\
+β_1\\
+⋮\\
+β_p
+\end{bmatrix},  ε = \begin{bmatrix}
+ε_1\\
+ε_2\\
+⋮\\
+ε_n
+\end{bmatrix}$$
+
+<p>Now, we determine an estimate of b, i.e. b’ using the Least Squares method. As already explained, the Least Squares method tends to determine b’ for which total residual error is minimized. We present the result directly here:  </p>
