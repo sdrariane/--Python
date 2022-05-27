@@ -92,3 +92,19 @@ $$β = \begin{bmatrix}
 \end{bmatrix}$$
 
 <p>Now, we determine an estimate of b, i.e. b’ using the Least Squares method. As already explained, the Least Squares method tends to determine b’ for which total residual error is minimized. We present the result directly here:  </p>
+
+$$β̂  = (X' ⋅ X)⁻¹ ⋅ X_y'$$
+
+<p> Where ‘ represents the transpose of the matrix while -1 represents the matrix inverse. Knowing the least square estimates, β̂’, the multiple linear regression model can now be estimated as:</p>
+
+$$ŷ = X ⋅ β̂ $$
+
+<p>Where y’ is the estimated response vector. And Residual Error plot looks like this:</p>
+
+![](https://media.geeksforgeeks.org/wp-content/uploads/python-linear-regression-3.png)
+
+<p>In the above example, we determine the accuracy score using Explained Variance Score. We define:</p>
+ 
+$$explained variance score = 1 - var{y-y'}/var{y}$$
+
+<p>Where y’ is the estimated target output, y the corresponding (correct) target output, and Var is Variance, the square of the standard deviation. The best possible score is 1.0, lower values are worse.  </p>
