@@ -3,7 +3,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.markdown import text
 import emoji
 
-bot = Bot(token='5379019831:AAGMS6fhq48vEpydXIdcCtTP67DJ9hI662U')
+bot = Bot(token='Oops! That is secret!')
 dp = Dispatcher(bot)
 
 # MENU INICIAL -------------------------------------------------------------------------------------------------------
