@@ -79,6 +79,13 @@ keyboard_gabaritos = InlineKeyboardMarkup().add(button13).add(button14).add(butt
 
 # ------------------ CONTEÚDO GRATUITO -------------------------------------------------------------------------------
 
+reply_free_content = text(emoji.emojize("""Vou te passar os materiais, mas para entender todo o contexto recomendo ver as aulas do YouTube!
+                                        \n Além de incríveis também estão sensacionais 🤩✨"""))
+
+grande_demissao = text(emoji.emojize('💼 A Grande Demissão ✨'))
+grande_demissao = InlineKeyboardButton(text=grande_demissao, url="https://cutt.ly/AJrBVIV")
+
+keyboard_free_content = InlineKeyboardMarkup().add(grande_demissao)
 
 # LOJA ---------------------------------------------------------------------------------------------------------------
 re = text(emoji.emojize('🧠 Resiliência Estudos ✨'))
@@ -117,7 +124,7 @@ async def kb_answer(message: types.Message):
    reply03 = text(emoji.emojize("""Adoro gente novaaa 🤩✨"""))
    await message.reply(reply03, reply_markup=keyboard_inlineReply3, parse_mode=ParseMode.MARKDOWN)
 
-@dp.callback_query_handler(text = ['redacao', 'gabaritos', 'gratuito'])
+@dp.callback_query_handler(text = ['redacao', 'gabaritos', 'free_content'])
 async def products(call: types.CallbackQuery):
   
   if call.data == 'redacao':
@@ -130,5 +137,8 @@ async def products(call: types.CallbackQuery):
                                          \n Adoraria que você desse uma olhadinha 😇
                                          \n Se já tem certeza do que adiquirir, bora garantir essa aprovação! 🤩✨"""))
     await call.message.answer(reply_gabaritos, reply_markup=keyboard_gabaritos, parse_mode=ParseMode.MARKDOWN)
+    
+  if call.data == 'free_content':
+    await call.message.answer(reply_free_content, reply_markup=keyboard_free_content, parse_mode=ParseMode.MARKDOWN)
     
 executor.start_polling(dp)
