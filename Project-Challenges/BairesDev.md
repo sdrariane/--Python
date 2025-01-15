@@ -9,3 +9,5 @@
 <b> 05. Criando um Sistema de Reconhecimento Facial do Zero:</b> https://colab.research.google.com/drive/1LKNvoqhttvyqnwAgBHc1WNrfxK8t9FZF?usp=sharing
 
 <b> 06. Criando um Sistema de Recomendação por Imagens Digitais:</b> https://colab.research.google.com/drive/1cPfK00gdW85Yx_4nYPz5fSe9oXScUqty?usp=sharing
+
+<b> 07. Criando um sistema de assistência virtual do zero:</b> https://colab.research.google.com/drive/1C1Va_Et_eMIM7xsKjOUStinFefNhPYhA?usp=sharing
