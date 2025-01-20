@@ -532,3 +532,5 @@ JOIN Cliente c ON p.ClienteID = c.ClienteID
 JOIN PedidoProduto pp ON p.PedidoID = pp.PedidoID
 JOIN Produto pr ON pp.ProdutoID = pr.ProdutoID;
 ```
+
+## Criando um Dashboard de Vendas do Xbox
