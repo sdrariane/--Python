@@ -245,4 +245,128 @@ GO
 
 ### 02. Inserção de Dados para Testes
 
+```sql
+-- Inserindo clientes
+INSERT INTO Cliente (Nome, TipoCliente, Documento) VALUES
+('João Silva', 'PF', '12345678901'),
+('Empresa XYZ', 'PJ', '98765432000198');
+
+-- Inserindo fornecedores
+INSERT INTO Fornecedor (Nome, Contato) VALUES
+('Fornecedor A', 'fornecedor_a@example.com'),
+('Fornecedor B', 'fornecedor_b@example.com');
+
+-- Inserindo produtos
+INSERT INTO Produto (NomeProduto, FornecedorID, Preco, Estoque) VALUES
+('Produto 1', 1, 100.00, 50),
+('Produto 2', 2, 200.00, 30);
+
+-- Inserindo pedidos
+INSERT INTO Pedido (ClienteID, DataPedido, ValorTotal, Status) VALUES
+(1, '2025-01-10', 500.00, 'Concluído'),
+(2, '2025-01-12', 1000.00, 'Pendente');
+
+-- Inserindo pagamentos
+INSERT INTO Pagamento (PedidoID, FormaPagamento, ValorPago) VALUES
+(1, 'Cartão de Crédito', 500.00),
+(2, 'Boleto Bancário', 1000.00);
+
+-- Inserindo entregas
+INSERT INTO Entrega (PedidoID, StatusEntrega, CodigoRastreamento) VALUES
+(1, 'Entregue', 'ABC123456'),
+(2, 'Em Transporte', 'DEF654321');
+
+-- Inserindo produtos nos pedidos
+INSERT INTO PedidoProduto (PedidoID, ProdutoID, Quantidade, PrecoUnitario) VALUES
+(1, 1, 2, 100.00),
+(2, 2, 3, 200.00);
+GO
+```
+
+### 03. Queries SQL
+#### 3.1 Recuperações simples com SELECT Statement
+
+```sql
+-- Recuperar todos os clientes
+SELECT * FROM Cliente;
+
+-- Recuperar todos os produtos
+SELECT * FROM Produto;
+```
+
+#### 3.2 Filtros com WHERE Statement
+
+```sql
+-- Buscar pedidos concluídos
+SELECT * FROM Pedido WHERE Status = 'Concluído';
+
+-- Buscar produtos com estoque abaixo de 40 unidades
+SELECT * FROM Produto WHERE Estoque < 40;
+```
+
+#### 3.3 Atributos derivados
+
+```sql
+-- Calcular o valor total de cada pedido (derivado de PedidoProduto)
+SELECT 
+    PedidoID, 
+    SUM(Quantidade * PrecoUnitario) AS ValorCalculado 
+FROM PedidoProduto
+GROUP BY PedidoID;
+```
+
+#### 3.4 Ordenação com ORDER BY
+
+```sql
+-- Ordenar clientes pelo nome
+SELECT * FROM Cliente ORDER BY Nome;
+
+-- Ordenar produtos pelo preço de forma decrescente
+SELECT * FROM Produto ORDER BY Preco DESC;
+```
+
+#### 3.5 Filtros em grupos – HAVING Statement
+
+```sql
+-- Listar pedidos com valor total maior que 600
+SELECT 
+    PedidoID, 
+    SUM(Quantidade * PrecoUnitario) AS ValorCalculado 
+FROM PedidoProduto
+GROUP BY PedidoID
+HAVING SUM(Quantidade * PrecoUnitario) > 600;
+```
+
+#### 3.6 Junções entre tabelas
+
+```sql
+-- Relacionar pedidos com os clientes
+SELECT 
+    p.PedidoID, 
+    c.Nome AS NomeCliente, 
+    p.DataPedido, 
+    p.Status 
+FROM Pedido p
+JOIN Cliente c ON p.ClienteID = c.ClienteID;
+
+-- Relacionar produtos com fornecedores
+SELECT 
+    pr.NomeProduto, 
+    f.Nome AS NomeFornecedor 
+FROM Produto pr
+JOIN Fornecedor f ON pr.FornecedorID = f.FornecedorID;
+
+-- Relação de pedidos, produtos e clientes
+SELECT 
+    pp.PedidoID, 
+    c.Nome AS NomeCliente, 
+    pr.NomeProduto, 
+    pp.Quantidade, 
+    pp.PrecoUnitario 
+FROM PedidoProduto pp
+JOIN Pedido p ON pp.PedidoID = p.PedidoID
+JOIN Cliente c ON p.ClienteID = c.ClienteID
+JOIN Produto pr ON pp.ProdutoID = pr.ProdutoID;
+```
+
 ## Construa um Projeto Lógico de Banco de Dados do Zero
