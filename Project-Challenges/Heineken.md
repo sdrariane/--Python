@@ -167,3 +167,80 @@ CREATE TABLE OSPeca (
 );
 
 ```
+
+## Construindo seu Primeiro Projeto Lógico de Banco de Dados
+### 01. Criação do Esquema do Banco de Dados
+
+```sql
+-- Criação do banco de dados
+CREATE DATABASE ECommerceDB;
+GO
+
+USE ECommerceDB;
+GO
+
+-- Tabela de Clientes (PJ e PF)
+CREATE TABLE Clientes (
+    ClienteID INT IDENTITY(1,1) PRIMARY KEY,
+    Nome NVARCHAR(100) NOT NULL,
+    Tipo NVARCHAR(2) CHECK (Tipo IN ('PJ', 'PF')) NOT NULL,
+    CNPJ_CPF NVARCHAR(20) NOT NULL UNIQUE
+);
+
+-- Tabela de Formas de Pagamento
+CREATE TABLE FormasPagamento (
+    PagamentoID INT IDENTITY(1,1) PRIMARY KEY,
+    Metodo NVARCHAR(50) NOT NULL,
+    Detalhes NVARCHAR(255) NULL
+);
+
+-- Tabela de Pedidos
+CREATE TABLE Pedidos (
+    PedidoID INT IDENTITY(1,1) PRIMARY KEY,
+    ClienteID INT NOT NULL FOREIGN KEY REFERENCES Clientes(ClienteID),
+    DataPedido DATETIME NOT NULL,
+    ValorTotal DECIMAL(10, 2) NOT NULL
+);
+
+-- Tabela de Entregas
+CREATE TABLE Entregas (
+    EntregaID INT IDENTITY(1,1) PRIMARY KEY,
+    PedidoID INT NOT NULL FOREIGN KEY REFERENCES Pedidos(PedidoID),
+    Status NVARCHAR(50) NOT NULL,
+    CodigoRastreamento NVARCHAR(50) NOT NULL
+);
+
+-- Tabela de Produtos
+CREATE TABLE Produtos (
+    ProdutoID INT IDENTITY(1,1) PRIMARY KEY,
+    NomeProduto NVARCHAR(100) NOT NULL,
+    Preco DECIMAL(10, 2) NOT NULL,
+    FornecedorID INT NOT NULL
+);
+
+-- Tabela de Estoques
+CREATE TABLE Estoques (
+    EstoqueID INT IDENTITY(1,1) PRIMARY KEY,
+    ProdutoID INT NOT NULL FOREIGN KEY REFERENCES Produtos(ProdutoID),
+    Quantidade INT NOT NULL
+);
+
+-- Tabela de Fornecedores
+CREATE TABLE Fornecedores (
+    FornecedorID INT IDENTITY(1,1) PRIMARY KEY,
+    NomeFornecedor NVARCHAR(100) NOT NULL,
+    Telefone NVARCHAR(15) NULL
+);
+
+-- Tabela Pedido_Produto para relacionamento N:N
+CREATE TABLE Pedido_Produto (
+    PedidoID INT NOT NULL FOREIGN KEY REFERENCES Pedidos(PedidoID),
+    ProdutoID INT NOT NULL FOREIGN KEY REFERENCES Produtos(ProdutoID),
+    Quantidade INT NOT NULL,
+    PRIMARY KEY (PedidoID, ProdutoID)
+);
+GO
+
+```
+
+### 02. Inserção de Dados para Testes
