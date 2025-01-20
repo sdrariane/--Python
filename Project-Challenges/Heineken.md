@@ -1,4 +1,34 @@
-## Refinando um Projeto Conceitual de Banco de Dados – E-COMMERCE
+# Bootcamp Heineken
+## Sumário
+
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [Construindo um Esquema Conceitual para Banco de Dados](#construindo-um-esquema-conceitual-para-banco-de-dados)
+- [Construindo seu Primeiro Projeto Lógico de Banco de Dados](#construindo-seu-primeiro-projeto-lógico-de-banco-de-dados)
+   * [01. Criação do Esquema do Banco de Dados](#01-criação-do-esquema-do-banco-de-dados)
+   * [02. Inserção de Dados para Testes](#02-inserção-de-dados-para-testes)
+   * [03. Queries SQL](#03-queries-sql)
+      + [3.1 Recuperações simples com SELECT Statement](#31-recuperações-simples-com-select-statement)
+      + [3.2 Filtros com WHERE Statement](#32-filtros-com-where-statement)
+      + [3.3 Atributos derivados](#33-atributos-derivados)
+      + [3.4 Ordenação com ORDER BY](#34-ordenação-com-order-by)
+      + [3.5 Filtros em grupos – HAVING Statement](#35-filtros-em-grupos-having-statement)
+      + [3.6 Junções entre tabelas](#36-junções-entre-tabelas)
+- [Construa um Projeto Lógico de Banco de Dados do Zero](#construa-um-projeto-lógico-de-banco-de-dados-do-zero)
+   * [01. Criação do Esquema do Banco de Dados](#01-criação-do-esquema-do-banco-de-dados-1)
+   * [02. Inserção de Dados para Testes](#02-inserção-de-dados-para-testes-1)
+   * [03. Queries SQL](#03-queries-sql-1)
+      + [3.1 Recuperações simples com SELECT Statement](#31-recuperações-simples-com-select-statement-1)
+      + [3.2 Filtros com WHERE Statement](#32-filtros-com-where-statement-1)
+      + [3.3 Atributos derivados](#33-atributos-derivados-1)
+      + [3.4 Ordenação com ORDER BY](#34-ordenação-com-order-by-1)
+      + [3.5 Filtros em grupos – HAVING Statement](#35-filtros-em-grupos-having-statement-1)
+      + [3.6 Junções entre tabelas](#36-junções-entre-tabelas-1)
+- [Criando um Dashboard de Vendas do Xbox](#criando-um-dashboard-de-vendas-do-xbox)
+
+<!-- TOC end -->
+
+##Refinando um Projeto Conceitual de Banco de Dados – E-COMMERCE
 
 ```sql
 -- Tabelas principais
