@@ -69,3 +69,101 @@ CREATE TABLE PedidoProduto (
 );
 
 ```
+
+## Construindo um Esquema Conceitual para Banco de Dados
+
+```sql
+
+-- Tabela de Clientes
+CREATE TABLE Cliente (
+    ClienteID INT PRIMARY KEY IDENTITY,
+    Nome VARCHAR(255) NOT NULL,
+    Telefone VARCHAR(15),
+    Email VARCHAR(255) UNIQUE,
+    Endereco VARCHAR(255)
+);
+
+-- Tabela de Veículos
+CREATE TABLE Veiculo (
+    VeiculoID INT PRIMARY KEY IDENTITY,
+    ClienteID INT NOT NULL,
+    Marca VARCHAR(50) NOT NULL,
+    Modelo VARCHAR(50) NOT NULL,
+    Placa VARCHAR(10) UNIQUE NOT NULL,
+    AnoFabricacao INT NOT NULL,
+    FOREIGN KEY (ClienteID) REFERENCES Cliente(ClienteID)
+);
+
+-- Tabela de Mecânicos
+CREATE TABLE Mecanico (
+    MecanicoID INT PRIMARY KEY IDENTITY,
+    Nome VARCHAR(255) NOT NULL,
+    Endereco VARCHAR(255),
+    Especialidade VARCHAR(100)
+);
+
+-- Tabela de Equipes
+CREATE TABLE Equipe (
+    EquipeID INT PRIMARY KEY IDENTITY,
+    NomeEquipe VARCHAR(100) NOT NULL
+);
+
+-- Relacionamento entre Equipe e Mecânicos (N:N)
+CREATE TABLE EquipeMecanico (
+    EquipeID INT NOT NULL,
+    MecanicoID INT NOT NULL,
+    PRIMARY KEY (EquipeID, MecanicoID),
+    FOREIGN KEY (EquipeID) REFERENCES Equipe(EquipeID),
+    FOREIGN KEY (MecanicoID) REFERENCES Mecanico(MecanicoID)
+);
+
+-- Tabela de Serviços
+CREATE TABLE Servico (
+    ServicoID INT PRIMARY KEY IDENTITY,
+    Descricao VARCHAR(255) NOT NULL,
+    ValorMaoDeObra DECIMAL(10, 2) NOT NULL
+);
+
+-- Tabela de Peças
+CREATE TABLE Peca (
+    PecaID INT PRIMARY KEY IDENTITY,
+    Nome VARCHAR(100) NOT NULL,
+    Valor DECIMAL(10, 2) NOT NULL
+);
+
+-- Tabela de Ordens de Serviço (OS)
+CREATE TABLE OrdemServico (
+    OSID INT PRIMARY KEY IDENTITY,
+    VeiculoID INT NOT NULL,
+    EquipeID INT NOT NULL,
+    DataEmissao DATETIME NOT NULL DEFAULT GETDATE(),
+    DataConclusao DATETIME NULL,
+    ValorTotal DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    Status VARCHAR(50) NOT NULL, -- Ex.: Pendente, Em Execução, Concluído
+    FOREIGN KEY (VeiculoID) REFERENCES Veiculo(VeiculoID),
+    FOREIGN KEY (EquipeID) REFERENCES Equipe(EquipeID)
+);
+
+-- Relacionamento entre OS e Serviços (N:N)
+CREATE TABLE OSServico (
+    OSID INT NOT NULL,
+    ServicoID INT NOT NULL,
+    Quantidade INT NOT NULL CHECK (Quantidade > 0),
+    Valor DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (OSID, ServicoID),
+    FOREIGN KEY (OSID) REFERENCES OrdemServico(OSID),
+    FOREIGN KEY (ServicoID) REFERENCES Servico(ServicoID)
+);
+
+-- Relacionamento entre OS e Peças (N:N)
+CREATE TABLE OSPeca (
+    OSID INT NOT NULL,
+    PecaID INT NOT NULL,
+    Quantidade INT NOT NULL CHECK (Quantidade > 0),
+    Valor DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (OSID, PecaID),
+    FOREIGN KEY (OSID) REFERENCES OrdemServico(OSID),
+    FOREIGN KEY (PecaID) REFERENCES Peca(PecaID)
+);
+
+```
