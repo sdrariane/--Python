@@ -370,3 +370,165 @@ JOIN Produto pr ON pp.ProdutoID = pr.ProdutoID;
 ```
 
 ## Construa um Projeto Lógico de Banco de Dados do Zero
+### 01. Criação do Esquema do Banco de Dados
+
+```sql
+-- Criação do banco de dados
+CREATE DATABASE LojaOnline;
+GO
+
+USE LojaOnline;
+GO
+
+-- Tabela de Clientes
+CREATE TABLE Cliente (
+    ClienteID INT PRIMARY KEY IDENTITY(1,1),
+    Nome NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) UNIQUE NOT NULL,
+    TipoCliente NVARCHAR(2) CHECK (TipoCliente IN ('PF', 'PJ')), -- PF: Pessoa Física, PJ: Pessoa Jurídica
+    Documento NVARCHAR(20) UNIQUE NOT NULL
+);
+
+-- Tabela de Produtos
+CREATE TABLE Produto (
+    ProdutoID INT PRIMARY KEY IDENTITY(1,1),
+    NomeProduto NVARCHAR(100) NOT NULL,
+    Preco DECIMAL(10,2) NOT NULL,
+    Estoque INT NOT NULL
+);
+
+-- Tabela de Pedidos
+CREATE TABLE Pedido (
+    PedidoID INT PRIMARY KEY IDENTITY(1,1),
+    ClienteID INT NOT NULL FOREIGN KEY REFERENCES Cliente(ClienteID),
+    DataPedido DATE NOT NULL,
+    ValorTotal DECIMAL(10,2),
+    Status NVARCHAR(50)
+);
+
+-- Tabela de Itens do Pedido
+CREATE TABLE PedidoProduto (
+    PedidoProdutoID INT PRIMARY KEY IDENTITY(1,1),
+    PedidoID INT NOT NULL FOREIGN KEY REFERENCES Pedido(PedidoID),
+    ProdutoID INT NOT NULL FOREIGN KEY REFERENCES Produto(ProdutoID),
+    Quantidade INT NOT NULL,
+    PrecoUnitario DECIMAL(10,2) NOT NULL
+);
+GO
+```
+
+### 02. Inserção de Dados para Testes
+
+```sql
+-- Inserindo clientes
+INSERT INTO Cliente (Nome, Email, TipoCliente, Documento) VALUES
+('João Silva', 'joao.silva@example.com', 'PF', '12345678901'),
+('Empresa ABC', 'contato@empresaabc.com.br', 'PJ', '98765432000198');
+
+-- Inserindo produtos
+INSERT INTO Produto (NomeProduto, Preco, Estoque) VALUES
+('Notebook', 3000.00, 10),
+('Smartphone', 1500.00, 20),
+('Tablet', 1000.00, 15);
+
+-- Inserindo pedidos
+INSERT INTO Pedido (ClienteID, DataPedido, ValorTotal, Status) VALUES
+(1, '2025-01-15', 4500.00, 'Concluído'),
+(2, '2025-01-16', 3000.00, 'Pendente');
+
+-- Inserindo itens dos pedidos
+INSERT INTO PedidoProduto (PedidoID, ProdutoID, Quantidade, PrecoUnitario) VALUES
+(1, 1, 1, 3000.00),
+(1, 2, 1, 1500.00),
+(2, 1, 1, 3000.00);
+GO
+```
+
+### 03. Queries SQL
+#### 3.1 Recuperações simples com SELECT Statement
+
+```sql
+-- Recuperar todos os clientes
+SELECT * FROM Cliente;
+
+-- Recuperar todos os produtos com estoque disponível
+SELECT NomeProduto, Estoque FROM Produto WHERE Estoque > 0;
+```
+
+#### 3.2 Filtros com WHERE Statement
+
+```sql
+-- Recuperar pedidos concluídos
+SELECT * FROM Pedido WHERE Status = 'Concluído';
+
+-- Buscar produtos com preço maior que R$1.500,00
+SELECT * FROM Produto WHERE Preco > 1500.00;
+```
+
+#### 3.3 Atributos derivados
+
+```sql
+-- Calcular o valor total dos itens em cada pedido
+SELECT 
+    PedidoID, 
+    SUM(Quantidade * PrecoUnitario) AS ValorCalculado
+FROM PedidoProduto
+GROUP BY PedidoID;
+```
+
+#### 3.4 Ordenação com ORDER BY
+
+```sql
+-- Ordenar clientes pelo nome em ordem alfabética
+SELECT * FROM Cliente ORDER BY Nome;
+
+-- Ordenar produtos pelo preço, do mais caro ao mais barato
+SELECT * FROM Produto ORDER BY Preco DESC;
+```
+
+#### 3.5 Filtros em grupos – HAVING Statement
+
+```sql
+-- Listar pedidos cujo valor total é maior que R$3.000,00
+SELECT 
+    PedidoID, 
+    SUM(Quantidade * PrecoUnitario) AS ValorCalculado
+FROM PedidoProduto
+GROUP BY PedidoID
+HAVING SUM(Quantidade * PrecoUnitario) > 3000;
+```
+
+#### 3.6 Junções entre tabelas
+
+```sql
+-- Relacionar pedidos com os clientes
+SELECT 
+    p.PedidoID,
+    c.Nome AS NomeCliente,
+    p.DataPedido,
+    p.Status
+FROM Pedido p
+JOIN Cliente c ON p.ClienteID = c.ClienteID;
+
+-- Relacionar produtos aos pedidos
+SELECT 
+    pp.PedidoID,
+    pr.NomeProduto,
+    pp.Quantidade,
+    pp.PrecoUnitario
+FROM PedidoProduto pp
+JOIN Produto pr ON pp.ProdutoID = pr.ProdutoID;
+
+-- Detalhar os pedidos, incluindo cliente e itens
+SELECT 
+    p.PedidoID,
+    c.Nome AS NomeCliente,
+    pr.NomeProduto,
+    pp.Quantidade,
+    pp.PrecoUnitario,
+    (pp.Quantidade * pp.PrecoUnitario) AS ValorItem
+FROM Pedido p
+JOIN Cliente c ON p.ClienteID = c.ClienteID
+JOIN PedidoProduto pp ON p.PedidoID = pp.PedidoID
+JOIN Produto pr ON pp.ProdutoID = pr.ProdutoID;
+```
