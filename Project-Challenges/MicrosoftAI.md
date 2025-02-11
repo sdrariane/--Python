@@ -46,3 +46,57 @@
 
 ### 🚀 Pronto!
 Agora você está pronto para usar a Microsoft Azure e explorar todas as funcionalidades do Playground! 🎉
+
+# 🌟 Guia Detalhado de Implementação de APIs no Azure OpenAI
+
+## 🧠 Introdução aos Agentes de IA
+Os agentes de IA são sistemas que usam técnicas de inteligência artificial para realizar tarefas específicas de maneira autônoma. Eles podem ser utilizados em diversas áreas, como atendimento ao cliente, automação de processos, análise de dados e muito mais. A integração com APIs permite que esses agentes se comuniquem com outros sistemas e acessem dados externos para melhorar seu desempenho.
+
+## 🚀 Passo-a-Passo para Implementação de APIs no Azure OpenAI
+
+### Passo 1: Criação de uma Conta no Azure
+1. Acesse o site do [Azure](https://azure.microsoft.com/en-us/free/).
+2. Clique no botão **Start free** ou **Comece gratuitamente**.
+3. Siga os passos para criar sua conta, conforme descrito no [guia de criação de conta](https://github.com/sdrariane/como-criar-conta-azure-playground.md).
+
+### Passo 2: Configuração do Serviço Azure OpenAI
+1. Após criar sua conta e fazer login no portal Azure, navegue até a seção **Create a resource**.
+2. Procure por **Azure OpenAI** e selecione a opção correspondente.
+3. Clique em **Create** para iniciar a configuração do serviço.
+
+### Passo 3: Preenchimento dos Detalhes do Serviço
+1. Escolha a **Subscription** apropriada.
+2. Selecione um **Resource Group** ou crie um novo.
+3. Dê um nome único para o seu serviço em **Name**.
+4. Escolha a **Location** adequada para a sua organização.
+5. Clique em **Review + create** e, em seguida, em **Create** para provisionar o serviço.
+
+### Passo 4: Configuração da API
+1. Após a criação do serviço, navegue até o recurso Azure OpenAI criado.
+2. Na seção **Keys and Endpoint**, copie a **API Key** e o **Endpoint**.
+
+### Passo 5: Implementação da API
+1. No seu ambiente de desenvolvimento, instale as bibliotecas necessárias para fazer chamadas HTTP (e.g., `requests` para Python).
+2. Configure seu código para autenticar e fazer chamadas à API usando a **API Key** e o **Endpoint**.
+
+```python name=api_implementation.py
+import requests
+
+# Substitua 'your_api_key' e 'your_endpoint' pelos valores copiados
+api_key = 'your_api_key'
+endpoint = 'your_endpoint'
+
+headers = {
+    'Content-Type': 'application/json',
+    'Authorization': f'Bearer {api_key}',
+}
+
+data = {
+    'prompt': 'Escreva um poema sobre a primavera.',
+    'max_tokens': 50
+}
+
+response = requests.post(f'{endpoint}/v1/engines/davinci/completions', headers=headers, json=data)
+
+print(response.json())
+```
